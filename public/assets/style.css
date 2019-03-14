@@ -1,0 +1,39 @@
+body{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;}
+a.back-link, a.back-link:hover, a.back-link:focus{color: #000;}
+.container-fluid{padding-right:0;padding-left:0;margin-right:auto;margin-left:auto;width:1200px}
+.main-content > .container{min-height: 200vh;}
+.navbar{margin-bottom: 0px;}
+.navbar .container-fluid{padding: 0;}
+.navbar-header{width: 180px;}
+.navbar-right .dropdown:hover .dropdown-menu, .navbar .dropdown:hover .dropdown-menu {display: block;}
+.btn-white, .btn-white:hover, .btn-white:active, .btn-white:focus, .btn-white:active:focus{color: red; background: #fff; font-weight: 600; border: none;outline:none;}
+.box-shadow{box-shadow: 1px 1px 10px #ccc;}
+
+/*Trang đăng ký*/
+.owl-item{float:left}
+.register-box, .login-box{color: #fff;}
+.register-page, .login-page{min-height: 650px; background: url('img/register-background.jpg') no-repeat; background-size: cover;background-position: -500px;}
+
+/*Trang category*/
+.block-left-title{font-weight: 600; color: red;font-size: 16px; margin-bottom: 10px}
+.category-page .block-left{margin-top: 50px;}
+.category-page .description {font-size: 16px;text-align: justify;}
+.category-page h1.page-title{padding: 20px 0px 10px; font-weight: 600;text-align: center;text-transform: uppercase;}
+.category-page .list{margin-top: 30px}
+.category-page .row-fluid .span4:nth-child(4n){margin-left: 0px;}
+.course-description p{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;display:-moz-inline-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;-moz-box-orient:vertical;}
+.course-grid-info{padding:0 15px 25px}
+.course-grid-item{margin-bottom:30px; border-radius: 5px; overflow: hidden}
+.course-grid-name{font-size: 20px ; font-weight: 600;}
+.course-view-more, .course-view-more:hover, .course-view-more:focus {display:inline-block;background:red;color:#fff;width:100%;line-height:30px;text-align:center;border-radius:15px;margin-top:14px;font-weight:600}
+.list-category li{line-height:30px;font-size:16px;font-weight:600}
+
+/*Trang lớp học*/
+.page-title h3{font-size:40px;text-transform:uppercase;text-align:center;font-weight:600;background-image:url(../assets/img/yoga-banner.jpg);background-position:0 -218px;background-color:#333;height:250px;margin-top:0;line-height:250px;color:#f00;text-shadow:1px 1px #fff}
+.lesson .nav-tabs{border: 0px; width: 80px;background-color: #222222;height: 460px;overflow: auto;}
+.lesson .nav-tabs > li {float: unset;}
+.lesson .nav-tabs > li > a{margin: 0px; color: #fff;border: 0px;}
+.lesson .nav-tabs > li > a:hover{border: 0px; background-color: #000; border-radius: 0px;}
+.lesson .nav-tabs>li.active>a,.lesson .nav-tabs>li.active>a:hover, .lesson .nav-tabs>li.active>a:focus{color:#fff;cursor:default;background-color:red;border-bottom-color:transparent;border-radius:0;border: 0px}
+.lesson .tab-content{width: calc(100% - 80px); margin: 0px;}
+#localStream{position: fixed; bottom: 0; right: 0; display: none;}

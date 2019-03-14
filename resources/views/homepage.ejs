@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Socket IO</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script type="text/javascript" src="http://192.168.1.102:9000/socket.io/socket.io.js"></script>
+    <script>
+        //Ket noi len server
+        var socket = io("192.168.1.102:9000");
+
+        $(document).ready(function(){
+            alert('1');
+        });
+        var p = new Peer({ initiator: location.hash === '#1', trickle: false });
+        p.on('signal', token => console.log(token));
+    </script>
+</head>
+<body>
+    <h2 class="span12" style="text-align: center;">Đây là trang chủ 123</h2>
+</body>
+</html>
