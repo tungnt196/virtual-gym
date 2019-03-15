@@ -130,22 +130,43 @@
                     var name = e.name;
                     <?php if($hlv_sign):?>
                         if(e.class_id == <?php echo $class[0]->id;?>){
-                            if(e.user_id != <?php echo $user->id;?>){
-                                $('#userOnline').append('<li id="'+peerID+'">'+name+'</li>');
+                            //sinh danh sách online
+//                            if(e.user_id != <?php echo $user->id;?>){
+//                                $('#userOnline').append('<li id="'+peerID+'">'+name+'</li>');
+//                            }
+                        }
+                    <?php else:?>
+                        if(e.class_id == <?php echo $class[0]->id;?>){
+                            if(e.user_id == <?php echo $hlv[0]->id_hlv;?>){
+                                openStream()
+                                .then(stream => {
+                                    var call = peer.call(peerID, stream);
+                                })
+                                .catch(err => console.log(err));
                             }
                         }
                     <?php endif;?>
                 });
 
-                <?php if($hlv_sign):?>
-                    socket.on('co_nguoi_moi', function(user){
-                        var peerID = user.peer_id;
-                        var name = user.name;
+                socket.on('co_nguoi_moi', function(user){
+                    var peerID = user.peer_id;
+                    var name = user.name;
+                    <?php if($hlv_sign):?>
                         if(user.class_id == <?php echo $class[0]->id;?>){
                             $('#userOnline').append('<li id="'+peerID+'">'+name+'</li>') ;
-                        }
-                    }); 
-                <?php endif;?>
+                        };
+                    <?php else:?>
+                        if(user.class_id == <?php echo $class[0]->id;?>){
+                            if(user.user_id == <?php echo $hlv[0]->id_hlv;?>){
+                                openStream()
+                                .then(stream => {
+                                    var call = peer.call(peerID, stream);
+                                })
+                                .catch(err => console.log(err));
+                            }
+                        } 
+                    <?php endif;?>
+                });
             });
          
             //Báo khi người dùng đã kết nối
@@ -158,31 +179,34 @@
                 document.getElementById(user).remove();
             });
          
+            //Call khi bấm vào video stream của học viên
+            
+            $("#listVideo").on('click', 'video', function(){
+                console.log($(this).attr('peerID'));
+                                
+                openStream()
+                .then(stream => {
+                    playStream('localStream', stream);
+                    var call = peer.call($(this).attr('peerID'), stream);
+                })
+                .catch(err => console.log(err));
+            });
+            
             //Call khi bấm vào ID
             $("#userOnline").on('click', 'li', function(){
                 console.log($(this).attr('id'));
-                
-                var id = 'video'+$(this).attr('id');
-                
-                //Tạo ra video
-                jQuery('<video>', {
-                    id: id,
-                    class: 'videoStream',
-                    width: '300',
-                    controls: true,
-                }).appendTo('#listVideo');
                                 
                 openStream()
                 .then(stream => {
                     playStream('localStream', stream);
                     var call = peer.call($(this).attr('id'), stream);
-                    call.on('stream', remoteStream => playStream(id, remoteStream));
                 })
                 .catch(err => console.log(err));
             });
             
             //Mở webcam
             function openStream(){
+                // phải có mic nếu k sẽ bị lỗi audio
                 return navigator.mediaDevices.getUserMedia({audio: true, video: true});
             }
 
@@ -205,12 +229,14 @@
                 $("#myID").attr("peer_id", id);
                 $("#connect").click(function(){
                     socket.emit('user_online', {peer_id: id, class_id: <?php echo $class[0]->id;?>, name: "<?php echo $user->name;?>", user_id: <?php echo $user->id;?>});
-                    $('#localStream').css('display', 'block');
-                    openStream()
-                        .then(stream => {
-                            playStream('localStream', stream);
-                        })
-                        .catch(err => console.log(err));
+                    <?php if(!$hlv_sign):?>
+                        $('#localStream').css('display', 'block');
+                        openStream()
+                            .then(stream => {
+                                playStream('localStream', stream);
+                            })
+                            .catch(err => console.log(err));
+                    <?php endif;?>
                 });
             });
 
@@ -229,15 +255,16 @@
 
             /*Listen*/
             peer.on('call', call => {
-                console.log('2');
                 var idPeerCall = 'video'+call.provider.id;
 
                 jQuery('<video>', {
                     id: idPeerCall,
-                    class: 'videoStream',
+                    class: 'videoStreamHocVien',
                     width: '300',
-                    controls: true,
+                    peerID: call.peer,
                 }).appendTo('#listVideo');
+                
+                console.log(call);
                 
                 openStream()
                 .then(stream => {
