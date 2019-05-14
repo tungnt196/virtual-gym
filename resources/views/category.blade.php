@@ -5,9 +5,10 @@
 @endsection
 
 @section('content')
-<div class="main-content category-page">
+<?php $user = Session::get('user')['0'];?>
+<div class="main-content page-2column category-page">
     <div class="banner">
-        <img src="assets/img/red-gym-banner.jpg" width="100%" height="140px"/>
+        <h1 class="page-title">DANH MỤC KHÓA HỌC</h1>
     </div>
     <div class="container">
         <div class="row-fluid">
@@ -19,8 +20,12 @@
                     <?php endforeach;?>
                 </ul>
             </div>
-            <div class="span10">
-                <h1 class="page-title">DANH MỤC KHÓA HỌC</h1>
+            <div class="span10 block-right">
+                <?php if(is_object($user)):?>
+                    <?php if($user->roles != 1):?>
+                        <a href="{{URL::route('createClass')}}" class="btn btn-blue btn-size text-center text-uppercase text-white btn-create-class">Tạo khóa học</a>
+                    <?php endif;?>
+                <?php endif;?>
                 <div class="row-fluid list">
                     <?php foreach ($category as $c):?>
                         <div class="span4">

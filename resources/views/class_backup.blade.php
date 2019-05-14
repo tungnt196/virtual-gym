@@ -39,7 +39,6 @@
                     </ul>
                 </div>
                 <div class="span10 block-right">
-                    <button id="end-call">End call</button>
                     <div class="class-description">
                         <h3>Mô tả khóa học</h3>
                         <p>{{$class[0]->mo_ta}}</p>
@@ -160,38 +159,30 @@
             // comment-out below line if you do not have your own socket.io server
             // connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
-//            var socket = io("http://localhost:9000");
+            var socket = io("http://localhost:9000");
 
             //Khai bao nguoi ket noi
             //var Peer = require('simple-peer');
             var peer = new Peer({ initiator: location.hash === '#1', trickle: false });
             //var peer = new Peer({key: 'lwjd5qra8257b9'});
             //var peer = new Peer('id2', {host: 'localhost', port: 9000, path: '/'});
-            
-            //Tuong duong voi
-            connection.connectSocket(function(data) {
-                $("#myID").empty();
-                $("#myID").append("<div class='connect-fail'>Đang offline</div>");
-                $('#localStream').css('display', 'none'); 
-            })
-            
-            connection.socket.on('connect', function(){
+
+            socket.on('connect', function(){
                 //peer.on('open', id => {
-                $("#connect").click(function(){
-                    $("#myID").empty();
                     $("#myID").append("Đang online");
                     $("#myID").attr("peer_id", peer.id);
-                    connection.socket.emit('user_online', {peer_id: peer.id, class_id: <?php echo $class[0]->id;?>, name: "<?php echo $user->name;?>", user_id: <?php echo $user->id;?>});
-                    setTimeout(function(){
-                        console.log(connection.socket.id);
-                        //connection.socket.emit('test');
-                    }, 2000);
-                });
+                    $("#connect").click(function(){
+                        socket.emit('user_online', {peer_id: peer.id, class_id: <?php echo $class[0]->id;?>, name: "<?php echo $user->name;?>", user_id: <?php echo $user->id;?>});
+                        setTimeout(function(){
+                            console.log(connection.socket.id);
+                            //connection.socket.emit('test');
+                        }, 2000);
+                    });
                 //});
             });
             
             //Send danh sách online
-            connection.socket.on('danh_sach_online', function(peerIDonline){
+            socket.on('danh_sach_online', function(peerIDonline){
                 if(!<?php echo $hlv_sign?>){
                     $('.lesson').show();
                     $('#localStream').css('display', 'block');
@@ -247,7 +238,7 @@
                     <?php endif;?>
                 });
 
-                connection.socket.on('co_nguoi_moi', function(user){
+                socket.on('co_nguoi_moi', function(user){
                     var peerID = user.peer_id;
                     var name = user.name;
                     <?php if($hlv_sign):?>
@@ -285,12 +276,12 @@
             });
          
             //Báo khi người dùng đã kết nối
-            connection.socket.on('user_da_ket_noi', function(userID){
+            socket.on('user_da_ket_noi', function(userID){
                 alert("Đã kết nối rồi, đừng ấn nữa!");
             });
             
             //Xóa user khi người đó offline
-            connection.socket.on('user_offline', function(user){
+            socket.on('user_offline', function(user){
                 mediaElement = $("[id="+user+"]");
                 if(typeof mediaElement !== "undefined"){
                     mediaElement.remove();
@@ -298,7 +289,7 @@
             });
             
             //Khi mất kết nối với server  
-            connection.socket.on('connect_error', function(data){
+            socket.on('connect_error', function(data){
                 $("#myID").empty();
                 $("#myID").append("<div class='connect-fail'>Đang offline</div>");
                 $('#localStream').css('display', 'none'); 
@@ -426,9 +417,6 @@
                     });
                 }
             };
-            $('#end-call').click(function() {
-                window.existingCall.close();
-            });
         })
     </script>
 <?php endif;?>

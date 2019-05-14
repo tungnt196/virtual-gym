@@ -1,39 +1,119 @@
-body{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;}
+body{font-family: 'Roboto', sans-serif !important;font-size: 17px;}
 a.back-link, a.back-link:hover, a.back-link:focus{color: #000;}
+.alert{border-radius:0;margin:0;text-align:center}
+img{max-width: 100%;}
 .container-fluid{padding-right:0;padding-left:0;margin-right:auto;margin-left:auto;width:1200px}
-.main-content > .container{min-height: 200vh;}
-.navbar{margin-bottom: 0px;}
+.main-content > .container{min-height: 100vh;}
+.main-content.register-page>.container,.main-content.login-page>.container{width:650px;min-height: 250px; height:fit-content;margin:auto;background:#61acd1b5;padding:30px;border-radius:5px}
+.navbar{margin-bottom: 0px; border-radius: 0px;}
+.navbar-inverse{background-color:#61acd1;border:0}
 .navbar .container-fluid{padding: 0;}
 .navbar-header{width: 180px;}
 .navbar-right .dropdown:hover .dropdown-menu, .navbar .dropdown:hover .dropdown-menu {display: block;}
-.btn-white, .btn-white:hover, .btn-white:active, .btn-white:focus, .btn-white:active:focus{color: red; background: #fff; font-weight: 600; border: none;outline:none;}
+.navbar-inverse .navbar-nav > li > a{color: #fff;}
+.navbar-nav>li>a{line-height:40px;font-size:16px; color: #fff;}
+.navbar > .container-fluid .navbar-brand{color: #fff; font-size: 24px; line-height: 40px; height: 70px;}
+.btn-white, .btn-white:hover, .btn-white:active, .btn-white:focus, .btn-white:active:focus{color: #61acd1; background: #fff; font-weight: 600; border: none;outline:none;}
 .box-shadow{box-shadow: 1px 1px 10px #ccc;}
+.btn-blue{border-radius: 40px;width: 230px;line-height: 40px;color: #ffffff;background-color: #61acd1;font-size: 16px;font-weight: bold;border: none;margin-top: 5px;padding: 10px 60px;}
+.btn-blue:active, .btn-blue:hover{color: #fff;}
+.btn-red{border-radius: 40px;width: 230px;line-height: 40px;color: #ffffff;background-color: #f13c3c;font-size: 16px;font-weight: bold;border: none;margin-top: 5px;padding: 10px 60px;}
+.btn-size{width:160px;line-height:40px;padding:0;border-radius:5px; text-shadow: none; font-size: 16px;}
+label.error{color: red; font-weight: 400;}
+footer{min-height: 200px; background-color: #61acd1; color: #fff; padding: 50px 0px}
+footer .container > .title{font-size: 30px; text-align: center; margin: 30px 0px;}
+footer .container ul{list-style: none; padding: 0px; text-align: center;}
+footer .container li{display: inline-block;}
+footer .container .menu-bot li{padding: 0px 15px;}
+footer .container .row-fluid{margin-bottom: 30px;}
+.text-white{color: #fff;}
+.nav-center{margin-left: 80px;}
+.container{width: 1080px;}
+.title{font-weight: 600;}
+a, a:hover, a:active, a:focus{color: #000; text-decoration: none;}
+.row-fluid > .span4:nth-child(4n){margin-left: 0px;}
+
+/*Trang chủ*/
+.banner-homepage{background: url('img/banner-homepage.jpg') no-repeat; background-size: cover; background-position: center; display: flex; height: calc(100vh - 50px);}
+.banner-homepage .container{margin:auto;text-shadow:1px 1px 8px #333}
+.banner-homepage .banner-title{font-size: 64px; margin-bottom: 20px}
+.banner-homepage .content{font-size: 24px; margin-bottom: 25px}
+.cat-1 a{display: flex; background: url('img/cat-yoga.jpg') no-repeat; background-size: cover; background-position: center; height: 260px; width: 100%;}
+.cat-2 a{display: flex; background: url('img/cat-aerobic.jpg') no-repeat; background-size: cover; background-position: center; height: 260px; width: 100%;}
+.cat-3 a{display: flex; background: url('img/general-cat.jpg') no-repeat; background-size: cover; background-position: center; height: 260px; width: 100%;}
+.cat-4 a{display: flex; background: url('img/pilates-cat.jpg') no-repeat; background-size: cover; background-position: center; height: 260px; width: 100%;}
+.block-category .content{margin-top:auto;margin-bottom:auto;margin-left:20px;}
+.block-category a .title{font-size: 24px;color:#fff; margin-bottom: 10px;}
+.block-category .row-fluid{margin-bottom: 30px;}
+.homepage h2.title{font-size: 32px; line-height: 64px; margin-top: 70px; margin-bottom: 30px;}
+.block-benefit .container .row-fluid{margin-bottom: 80px;display: flex;}
+.block-benefit .container .title{margin-bottom: 20px; font-size: 24px;}
+.block-benefit .container .content{margin-bottom: 20px;}
+.block-benefit .container .block-content{margin-top: auto; margin-bottom: auto;}
+.block-feedback{margin-bottom: 100px;}
+.feedback{background:#61acd1;padding:20px;border-radius:5px;color:#fff;height:369px; text-align: center; padding: 30px;}
+.feedback img{border: 4px solid #fff; border-radius: 50%;}
+.feedback .title{margin: 30px 0px;}
 
 /*Trang đăng ký*/
 .owl-item{float:left}
-.register-box, .login-box{color: #fff;}
-.register-page, .login-page{min-height: 650px; background: url('img/register-background.jpg') no-repeat; background-size: cover;background-position: -500px;}
+.register-box, .login-box, .upload-box{color: #fff;}
+.register-box .title, .login-box .title, .upload-box .title{margin-top: 0px;}
+.register-box button, .login-box button{width: 100%; line-height: 24px;}
+.register-page, .login-page, .create-class-page, .upload-video, .update-class{display: flex; min-height: 500px; background: url('img/register-background.png') no-repeat; background-size: cover;background-position: center;}
 
 /*Trang category*/
-.block-left-title{font-weight: 600; color: red;font-size: 16px; margin-bottom: 10px}
-.category-page .block-left{margin-top: 50px;}
+.page-2column{margin-bottom: 100px}
+.page-2column > .banner{background: url('img/banner-cat.jpg') no-repeat; background-size: cover; height: 200px; margin-bottom: 50px;}
+.page-2column h1.page-title{padding:80px 0;margin:0;font-weight:600;text-align:center;text-transform:uppercase;text-shadow:0 0 6px #000;color:#fff}
+.block-left-title{font-weight: 600; color: #61acd1;font-size: 16px; margin-bottom: 10px}
+.container .block-left{width:180px}
+.container .block-right{margin-left:30px; width: calc(100% - 210px)}
 .category-page .description {font-size: 16px;text-align: justify;}
-.category-page h1.page-title{padding: 20px 0px 10px; font-weight: 600;text-align: center;text-transform: uppercase;}
-.category-page .list{margin-top: 30px}
 .category-page .row-fluid .span4:nth-child(4n){margin-left: 0px;}
 .course-description p{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;display:-moz-inline-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;-moz-box-orient:vertical;}
 .course-grid-info{padding:0 15px 25px}
 .course-grid-item{margin-bottom:30px; border-radius: 5px; overflow: hidden}
-.course-grid-name{font-size: 20px ; font-weight: 600;}
-.course-view-more, .course-view-more:hover, .course-view-more:focus {display:inline-block;background:red;color:#fff;width:100%;line-height:30px;text-align:center;border-radius:15px;margin-top:14px;font-weight:600}
-.list-category li{line-height:30px;font-size:16px;font-weight:600}
+.course-grid-image img {height: 156px;}
+.course-grid-name{font-size: 20px ; font-weight: 600;height: 44px;overflow: hidden;}
+.course-view-more, .course-view-more:hover, .course-view-more:focus {display:inline-block;background:#61acd1;color:#fff;width:100%;line-height:30px;text-align:center;border-radius:15px;margin-top:14px;font-weight:600}
+.list-category li{line-height:30px;font-size:16px;}
+
+/*Trang tạo lớp học*/
+.btn-create-class{margin-bottom: 20px;}
+.create-class-page >.container {min-height: unset; padding-top: 50px; padding-bottom: 100px;}
 
 /*Trang lớp học*/
-.page-title h3{font-size:40px;text-transform:uppercase;text-align:center;font-weight:600;background-image:url(../assets/img/yoga-banner.jpg);background-position:0 -218px;background-color:#333;height:250px;margin-top:0;line-height:250px;color:#f00;text-shadow:1px 1px #fff}
-.lesson .nav-tabs{border: 0px; width: 80px;background-color: #222222;height: 460px;overflow: auto;}
+.lesson .nav-tabs{border: 0px; width: 110px;background-color: #222222;height: 460px;overflow: auto;}
 .lesson .nav-tabs > li {float: unset;}
 .lesson .nav-tabs > li > a{margin: 0px; color: #fff;border: 0px;}
 .lesson .nav-tabs > li > a:hover{border: 0px; background-color: #000; border-radius: 0px;}
 .lesson .nav-tabs>li.active>a,.lesson .nav-tabs>li.active>a:hover, .lesson .nav-tabs>li.active>a:focus{color:#fff;cursor:default;background-color:red;border-bottom-color:transparent;border-radius:0;border: 0px}
-.lesson .tab-content{width: calc(100% - 80px); margin: 0px;}
+.lesson .tab-content{width: calc(100% - 110px); margin: 0px;}
 #localStream{position: fixed; bottom: 0; right: 0; display: none;}
+.page-class .start.span3{width: fit-content;}
+
+/*Trang quản lý lớp học*/
+.my-class .block-right h3.title{margin-top: 0px;}
+.my-class .block-right .btn-join-class{width: 180px;}
+.my-class .block-right .description{margin-bottom: 20px;}
+
+/*Trang tải video bài tập*/
+.upload-video .container{width: 600px; height:fit-content;min-height: unset;margin:auto;background:#61acd1b5;padding:30px;border-radius:5px}
+.upload-video .btn-upload, .upload-video .btn-back-to-class{width: 49.5%;}
+.upload-video h2.title{line-height: 48px;}
+
+/*update class*/
+.update-class{padding: 0px 0px 50px 0px;}
+
+/*Quản lý bài tập*/
+.manage-lesson .container{margin: 50px auto;}
+.manage-lesson .row-fluid{margin-bottom: 20px}
+.manage-lesson p.title{margin-bottom: 5px}
+.manage-lesson .infor{display: inline-flex;}
+.manage-lesson .infor a.btn, .manage-lesson .infor button.btn{margin: 0px 0px 0px 30px; line-height: 34px;}
+.manage-lesson .link-video .form-control{width: 500px}
+.manage-lesson .form-update-lesson{display: inline-flex;}
+
+/*Cập nhật tài khoản*/
+.update-account .container{padding: 50px 0px 100px 0px;}

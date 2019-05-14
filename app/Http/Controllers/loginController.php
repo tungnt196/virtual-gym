@@ -14,6 +14,12 @@ class loginController extends Controller
 {
     //
     public function getLogin(){
+        if(\Session::has('user')){
+            $user = \Session::get('user')['0'];
+            if(is_object($user)){
+                return redirect()->route('homepage');
+            }
+        }
     	return view('login');
     }
 

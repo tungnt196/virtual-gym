@@ -1,3 +1,4 @@
 /node_modules/
 /nbproject/private/
 /vendor/
+/resources/views/test_RTC.blade.php

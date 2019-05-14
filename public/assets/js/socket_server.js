@@ -5,6 +5,7 @@
  */
 
 var express = require("express");
+var RTCMultiConnectionServer = require('rtcmulticonnection-server');
 var app = express();
 //app.use(express.static("./public"));
 //app.set("view engine", "ejs");
@@ -16,12 +17,17 @@ server.listen(9000);
 
 var peerIDonline = new Array();
 
-io.on("connection", function(socket){
+io.on("connection", function(socket){        
     console.log("co ng ket noi " + socket.id);
         
     socket.on("disconnect", function(){
         console.log(socket.id + " ngat ket noi");
-        var index = peerIDonline.findIndex(id => id === socket.peerID);
+        var index = -1;
+        for(i = 0; i < peerIDonline.length; i++){
+            if(peerIDonline[i].peer_id === socket.peerID){
+                index = i;
+            }
+        }
         peerIDonline.splice(index, 1);
         io.emit('user_offline', socket.peerID);
     })
@@ -36,8 +42,22 @@ io.on("connection", function(socket){
         socket.emit('danh_sach_online', peerIDonline);
         socket.broadcast.emit('co_nguoi_moi', user);
     });
-})
+    
+    // ----------------------
+    // below code is optional
 
+    const params = socket.handshake.query;
+
+    if (!params.socketCustomEvent) {
+        params.socketCustomEvent = 'custom-message';
+    }
+
+    socket.on(params.socketCustomEvent, function(message) {
+        socket.broadcast.emit(params.socketCustomEvent, message);
+    });
+    
+    RTCMultiConnectionServer.addSocket(socket);
+})
 //app.get("/", function(req, res){
 //    res.render("homepage");
 //})

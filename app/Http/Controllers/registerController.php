@@ -14,6 +14,10 @@ class registerController extends Controller
 {
     //
     public function getRegister(){
+        $user = \Session::get('user')['0'];
+        if(is_object($user)){
+            return redirect()->route('homepage');
+        }
     	return view('register');
     }
 

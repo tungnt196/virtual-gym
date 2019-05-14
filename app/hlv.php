@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class hlv extends Model
 {
     //
-    public $table="hlv";
+    public $table="quan_ly_hlv";
+    public $timestamps = false;
 }
