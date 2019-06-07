@@ -34,12 +34,12 @@
                     <h3 class="block-left-title">DANH MỤC KHÓA HỌC</h3>
                     <ul class="list-unstyled list-category">
                         <?php foreach ($category as $c):?>
-                        <li><a href="{{URL::route('subCategory', array($c->id))}}" class="back-link">{{$c->the_loai}}</a></li>
+                        <li><a href="{{URL::route('subCategory', array($c->id))}}" class="back-link">{{$c->ten_danh_muc}}</a></li>
                         <?php endforeach;?>
                     </ul>
                 </div>
                 <div class="span10 block-right">
-                    <button id="end-call">End call</button>
+                    <!--<button id="end-call">End call</button>-->
                     <div class="class-description">
                         <h3>Mô tả khóa học</h3>
                         <p>{{$class[0]->mo_ta}}</p>
@@ -175,45 +175,52 @@
                 $('#localStream').css('display', 'none'); 
             })
             
+//            if(getCookie("hlv_online") == 'true'){
+//                console.log(1);
+//                setTimeout(function(){
+//                    $("#connect").click();
+//                }, 2000);
+//            }
+            
             connection.socket.on('connect', function(){
                 //peer.on('open', id => {
                 $("#connect").click(function(){
                     $("#myID").empty();
                     $("#myID").append("Đang online");
                     $("#myID").attr("peer_id", peer.id);
-                    connection.socket.emit('user_online', {peer_id: peer.id, class_id: <?php echo $class[0]->id;?>, name: "<?php echo $user->name;?>", user_id: <?php echo $user->id;?>});
+                    var hlv = <?php echo $hlv_sign ?> ? 1 : 0;
                     setTimeout(function(){
-                        console.log(connection.socket.id);
+                        connection.socket.emit('user_online', {peer_id: peer.id, class_id: <?php echo $class[0]->id;?>, name: "<?php echo $user->name;?>", user_id: <?php echo $user->id;?>, hlv: hlv});
+                        //console.log(connection.socket.id);
                         //connection.socket.emit('test');
-                    }, 2000);
+                    }, 1000);
                 });
                 //});
             });
             
             //Send danh sách online
             connection.socket.on('danh_sach_online', function(peerIDonline){
+                connection.onstream = function(event) {}
+                connection.openOrJoin('class_<?php echo $class[0]->id;?>', function(isRoomExists, roomid) {
+                    if(!isRoomExists) {
+                        //showRoomURL(roomid);
+                    }
+                });
                 if(!<?php echo $hlv_sign?>){
                     $('.lesson').show();
                     $('#localStream').css('display', 'block');
                     openStream()
                         .then(stream => {
-                            playStream('localStream', stream);
+                            playStreamLocal('localStream', stream);
                         })
                         .catch(err => console.log(err));
-                } else {
-                    //Nếu là HLV sẽ tạo room
-                    connection.open(peer.id, function(isRoomOpened, roomid, error) {
-                        if(error) {
-                            console.log(error);
-                        };
-                    });
                 }
-                console.log(peerIDonline.length);
                 peerIDonline.forEach(e => {
                     var peerID = e.peer_id;
                     var name = e.name;
                     <?php if($hlv_sign):?>
-                            if(e.class_id == <?php echo $class[0]->id;?>){
+                        if(e.class_id == <?php echo $class[0]->id;?>){
+                            if(e.user_id == <?php echo $hlv[0]->id_hlv;?>){
                                 connection.onstream = function(event) {
                                     if(event.type != 'local') { //check xem strem là của mình hay của người khác
                                         var video = document.createElement('video');
@@ -224,24 +231,27 @@
                                         video.allowfullscreen = true;
                                         video.srcObject = event.stream;
                                         connection.videosContainer.appendChild(video);;
+                                    } else {
+                                        console.log(connection.peers);
                                     }
                                 }
                             }
+                        }
                     <?php else:?>
                         if(e.user_id == <?php echo $hlv[0]->id_hlv;?>){
                             if(e.class_id == <?php echo $class[0]->id;?>){
                                 connection.onstream = function(event) {};
-                                connection.checkPresence(e.peer_id, function(isOnline, username) {
-                                    if(!isOnline) {
-                                        console.log(e.peer_id, + ' is not online.');
-                                        return;
-                                    }
-                                    connection.join(e.peer_id, function(isRoomJoined, roomid, error) {
-                                        if(error) {
-                                            console.log(error);
-                                        }
-                                    });
-                                });
+//                                connection.checkPresence(e.peer_id, function(isOnline, username) {
+//                                    if(!isOnline) {
+//                                        console.log(e.peer_id, + ' is not online.');
+//                                        return;
+//                                    }
+//                                    connection.join(e.peer_id, function(isRoomJoined, roomid, error) {
+//                                        if(error) {
+//                                            console.log(error);
+//                                        }
+//                                    });
+//                                });
                             }
                         }
                     <?php endif;?>
@@ -268,20 +278,37 @@
                     <?php else:?>
                         if(user.user_id != <?php echo $hlv[0]->id_hlv;?>){
                             connection.onstream = function(event) {}
-                            connection.checkPresence(peerID, function(isOnline, username) {
-                                if(!isOnline) {
-                                    console.log(peerID + ' is not online.');
-                                    return;
-                                }
-                                connection.join(peerID, function(isRoomJoined, roomid, error) {
-                                    if(error) {
-                                        console.log(error);
-                                    }
-                                });
-                            });
+//                            connection.checkPresence(peerID, function(isOnline, username) {
+//                                if(!isOnline) {
+//                                    console.log(peerID + ' is not online.');
+//                                    return;
+//                                }
+//                                connection.join(peerID, function(isRoomJoined, roomid, error) {
+//                                    if(error) {
+//                                        console.log(error);
+//                                    }
+//                                });
+//                            });
                         }
                     <?php endif;?>
                 });
+                <?php if(!$hlv_sign):?>
+                    connection.socket.on('hlv_online', function(){
+//                        connection.join('class_<?php echo $class[0]->id;?>', function(isRoomExists, roomid) {
+//                            if(!isRoomExists) {
+//                                showRoomURL(roomid);
+//                            }
+//                        });
+                        connection.close();
+                        location.reload();
+//                        setTimeout(function(){
+//                            connection.open();
+//                            connection.connectSocket(function(data) {
+//                                connection.socket.emit('user_online', {peer_id: peer.id, class_id: <?php echo $class[0]->id;?>, name: "<?php echo $user->name;?>", user_id: <?php echo $user->id;?>, hlv: hlv});
+//                            })
+//                        }, 500);
+                    })
+                <?php endif;?>
             });
          
             //Báo khi người dùng đã kết nối
@@ -297,6 +324,10 @@
                 }
             });
             
+            connection.socket.on('hlv_offline', function(){
+                connection.closeEntireSession();
+            })
+            
             //Khi mất kết nối với server  
             connection.socket.on('connect_error', function(data){
                 $("#myID").empty();
@@ -310,7 +341,7 @@
                     $('#localStream').css('display', 'block');  
                     openStream()
                     .then(stream => {
-                        playStream('localStream', stream);
+                        playStreamLocal('localStream', stream);
                         var call = peer.call($(this).attr('id'), stream);
                     })
                     .catch(err => console.log(err));
@@ -323,12 +354,23 @@
                 return navigator.mediaDevices.getUserMedia({audio: true, video: true});
             }
 
-            //Play camera
-            function playStream(idVideo, stream){
+            //Play camera local
+            function playStreamLocal(idVideo, stream){
+                const video = document.getElementById(idVideo);
+                video.srcObject = stream;
+                video.volume = 0;
+                video.setAttribute('muted', true);
+                video.onloadedmetadata = function(e) {
+                    video.play();
+                };
+            }
+            
+            //Play camera remote with sound
+            function playStreamRemote(idVideo, stream){
                 const video = document.getElementById(idVideo);
                 video.srcObject = stream;
                 video.onloadedmetadata = function(e) {
-                  video.play();
+                    video.play();
                 };
             }
       
@@ -347,8 +389,8 @@
                 openStream()
                 .then(stream => {
                     call.answer(stream);
-                    playStream('localStream', stream);
-                    call.on('stream', remoteStream => playStream(call.peer, remoteStream));
+                    playStreamLocal('localStream', stream);
+                    call.on('stream', remoteStream => playStreamRemote(call.peer, remoteStream));
                 });
             });
         
@@ -359,7 +401,7 @@
             //connection.socketMessageEvent = 'call-by-username-demo';
 
             // do not shift room control to other users
-            connection.autoCloseEntireSession = true;
+            //connection.autoCloseEntireSession = true;
 
             connection.session = {
                 audio: true,
@@ -427,9 +469,33 @@
                 }
             };
             $('#end-call').click(function() {
-                window.existingCall.close();
+                peer.on('close');
             });
         })
+        
+    function setCookie(name,value,days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+    
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+    function delete_cookie(name) {
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    };
     </script>
 <?php endif;?>
 @endsection

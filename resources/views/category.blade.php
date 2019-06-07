@@ -16,7 +16,7 @@
                 <div class="block-left-title">DANH MỤC KHÓA HỌC</div>
                 <ul class="list-unstyled list-category">
                     <?php foreach ($category as $c):?>
-                        <li><a href="{{URL::route('subCategory', array($c->id))}}" class="back-link">{{$c->the_loai}}</a></li>
+                        <li><a href="{{URL::route('subCategory', array($c->id))}}" class="back-link">{{$c->ten_danh_muc}}</a></li>
                     <?php endforeach;?>
                 </ul>
             </div>
@@ -31,10 +31,10 @@
                         <div class="span4">
                             <div class="course-grid-item box-shadow">
                                 <div class="course-grid-image">
-                                    <img alt="{{$c->the_loai}}" src="{{$c->anh_dai_dien}}" width="100%">
+                                    <img alt="{{$c->ten_danh_muc}}" src="{{$c->anh_dai_dien}}" width="100%">
                                 </div>
                                 <div class="course-grid-info">
-                                    <h3 class="course-grid-name">{{$c->the_loai}}</h3>
+                                    <h3 class="course-grid-name">{{$c->ten_danh_muc}}</h3>
                                     <div class="course-description">
                                         <p>{{$c->mo_ta}}</p> 
                                     </div>

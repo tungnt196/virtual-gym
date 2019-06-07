@@ -17,7 +17,7 @@
     <script type="text/javascript" src="../assets/peer.min.js"></script>
     <!--<script type="text/javascript" src="/assets/RTCMultiConnection_auth.min.js"></script>-->
     <script type="text/javascript" src="/assets/RTCMultiConnection.js"></script>
-    <script type="text/javascript" src="../assets/simple-peer/simplepeer.min.js"></script>
+    <!--<script type="text/javascript" src="../assets/simple-peer/simplepeer.min.js"></script>-->
     <script type="text/javascript" src="/assets/getHTMLMediaElement.js"></script>
     <script type="text/javascript" src="/assets/datepicker/jquery-ui.js"></script>
     <script type="text/javascript" src="/assets/timepicker/jquery.timepicker.min.js"></script>

@@ -30,17 +30,26 @@ io.on("connection", function(socket){
         }
         peerIDonline.splice(index, 1);
         io.emit('user_offline', socket.peerID);
+        if(socket.hlv){
+            io.emit('hlv_offline');
+            console.log('hlv_offline');
+        };
     })
         
     socket.on("user_online", function(user){
         console.log(socket.id + ' online');
         socket.peerID = user.peer_id;
+        socket.hlv = user.hlv;
         if(peerIDonline.some(e => e.user_id === user.user_id)){
             return socket.emit('user_da_ket_noi');
         };
         peerIDonline.push(user);
         socket.emit('danh_sach_online', peerIDonline);
         socket.broadcast.emit('co_nguoi_moi', user);
+        if(socket.hlv){
+            socket.broadcast.emit('hlv_online');
+            console.log('hlv_online');
+        };
     });
     
     // ----------------------

@@ -1,7 +1,7 @@
 @extends('main')
 
 @section('title')
-    Danh sách khóa học {{$main_category->the_loai}}
+    Danh sách khóa học {{$main_category->ten_danh_muc}}
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
     <?php $user = Session::get('user')['0'];?>
     <div class="main-content page-2column category-page">
         <div class="banner">
-            <h1 class="page-title">KHÓA HỌC {{$main_category->the_loai}}</h1>
+            <h1 class="page-title">KHÓA HỌC {{$main_category->ten_danh_muc}}</h1>
         </div>
         <div class="container">
             <div class="row-fluid">
@@ -21,7 +21,7 @@
                     <div class="block-left-title">DANH MỤC KHÓA HỌC</div>
                     <ul class="list-unstyled list-category">
                         <?php foreach ($category as $c):?>
-                            <li><a href="{{URL::route('subCategory', array($c->id))}}" class="back-link">{{$c->the_loai}}</a></li>
+                            <li><a href="{{URL::route('subCategory', array($c->id))}}" class="back-link">{{$c->ten_danh_muc}}</a></li>
                         <?php endforeach;?>
                     </ul>
                 </div>

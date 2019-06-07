@@ -10,6 +10,9 @@
 	<div class="login-box">
             <form id="login-form" action="{{url('login')}}" method="post">
                 <h2 class="title text-center">Đăng nhập OnlineGym4You</h2>
+                @if(Session::has('register-success'))
+                    <p class="alert alert-success">{{ Session::get('register-success') }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+                @endif
                 @if($errors->has('errorLogin'))
                     <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

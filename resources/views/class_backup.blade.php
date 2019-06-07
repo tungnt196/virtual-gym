@@ -34,7 +34,7 @@
                     <h3 class="block-left-title">DANH MỤC KHÓA HỌC</h3>
                     <ul class="list-unstyled list-category">
                         <?php foreach ($category as $c):?>
-                        <li><a href="{{URL::route('subCategory', array($c->id))}}" class="back-link">{{$c->the_loai}}</a></li>
+                            <li><a href="{{URL::route('subCategory', array($c->id))}}" class="back-link">{{$c->ten_danh_muc}}</a></li>
                         <?php endforeach;?>
                     </ul>
                 </div>

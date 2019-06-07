@@ -39,12 +39,13 @@ class registerController extends Controller
             $user->roles=$request->input('roles');
             if($request->input('roles') == 2){
                 echo "Đăng ký HLV thành công";
-                return redirect()->route('login');
+                $request->session()->flash('register-success', 'Đăng ký HLV thành công');
             } else {
                 echo "Đăng ký học viên thành công";
-                return redirect()->route('login');
+                $request->session()->flash('register-success', 'Đăng ký học viên thành công');
             }
             $user->save();
+            return redirect()->route('login');
 //    	}else{
 //          echo "Lỗi";
 //    	}
